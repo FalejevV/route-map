@@ -7,7 +7,7 @@ export default function MapLine(props:{
         color:string
     }
 }){
-    console.log("RUN");
+    
     return(
         <Polyline positions={props.positions} pathOptions={props.options} />
     )
