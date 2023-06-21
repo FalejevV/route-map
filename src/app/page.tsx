@@ -1,12 +1,11 @@
-import dynamic from "next/dynamic"
-const Map = dynamic(() => import('@/components/Map/Map'), {ssr:false});
+import MapLayout from "@/layouts/MapLayout";
+
 
 export default function Home() {
+
   return (
-    <main className="flex h-screen flex-col items-center justify-between p-24">
-      <div className='w-screen h-screen'>
-        <Map />
-      </div>
+    <main className="h-screen w-screen flex flex-col items-center justify-between p-4">
+      <MapLayout />
     </main>
   )
 }
