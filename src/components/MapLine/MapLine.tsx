@@ -1,11 +1,9 @@
-import { LatLngExpression } from "leaflet";
+import { LatLngExpression, PolylineOptions } from "leaflet";
 import { Polyline } from "react-leaflet";
 
 export default function MapLine(props:{
     positions:LatLngExpression[][],
-    options:{
-        color:string
-    }
+    options:PolylineOptions
 }){
     
     return(
