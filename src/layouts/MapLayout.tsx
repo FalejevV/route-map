@@ -17,12 +17,14 @@ const lineOptions = {
 
 export default function MapLayout(){
     
-    const [file,setFile] = useState<File>();
+    const [file,setFile] = useState<File | undefined>();
     const [parsedPath, setParsedPath] = useState<LatLngExpression[][]>([[]]);
     
     useEffect(() => {
         if(file){
             gpxParser({file}).then((res:any) => setParsedPath(res));
+        }else{
+            setParsedPath([]);
         }
     },[file])
 
@@ -30,8 +32,8 @@ export default function MapLayout(){
 
     return (
         <div className='w-min h-max flex gap-4 flex-col items-center'>
-            <FileInput setFile={setFile} />
-            <Map linePositions={parsedPath} lineOptions={lineOptions} />
+            <FileInput path={parsedPath} setPath={setParsedPath} file={file} setFile={setFile} />
+            <Map setLinePositions={setParsedPath} linePositions={parsedPath} lineOptions={lineOptions} />
         </div>
     )
 }
