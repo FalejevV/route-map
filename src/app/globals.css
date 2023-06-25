@@ -28,5 +28,16 @@ body {
 
 .leaflet-container{
   height:100%;
-  cursor:pointer !important;
+}
+
+.pointer{
+  cursor: pointer !important;
+}
+
+.crosshair{
+  cursor: crosshair !important;
+}
+
+.hover-zoom{
+  @apply hover:scale-110 transition duration-150
 }

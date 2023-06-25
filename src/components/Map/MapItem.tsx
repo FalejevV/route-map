@@ -9,9 +9,10 @@ import CustomMarker from '../CustomMarker/CustomMarker';
 export default function MapItem(props:{
     linePositions:LatLngExpression[][],
     setLinePositions:Function,
-    lineOptions:PolylineOptions
+    lineOptions:PolylineOptions,
+    center:LatLngExpression,
+    paintMode:string
 }){
-
     function MapClickListener(){
         const map = useMapEvents({
           click: (e:LeafletMouseEvent) => {
@@ -40,9 +41,10 @@ export default function MapItem(props:{
             return <CustomMarker type="end" position={[lat,lng]} />
         }
       }
+      
     return(
-        <div className="w-[1100px] h-[850px] ">
-            <MapContainer center={[55.5977264, 26.4236592]} zoom={13}>
+        <div className="w-screen max-w-[850px] h-screen max-h-[750px]">
+            <MapContainer zoom={13} center={props.center} className='pointer'>
                 <MapClickListener />
                 {startPin()}
                 {endPin()}
