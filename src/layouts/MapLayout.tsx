@@ -26,6 +26,7 @@ export default function MapLayout(){
     const [file,setFile] = useState<File | undefined>();
     const [parsedPath, setParsedPath] = useState<LatLngExpression[][]>([[]]);
     const [paintMode, setPaintMode] = useState("draw");
+    const [userLocation, setUserLocation] = useState<{lat:number,lng:number,acc:number} | undefined>();
 
     useEffect(() => {
         if(file){
@@ -56,7 +57,7 @@ export default function MapLayout(){
                     <ToolButton icon={"/save.svg"} onClick={() => generateGPXFile(parsedPath)} title={"Save"} />
                 </div>
             </div>
-            <Map paintMode={paintMode} center={[55.5977264, 26.4236592]} setLinePositions={setParsedPath} linePositions={parsedPath} lineOptions={lineOptions} />
+            <Map paintMode={paintMode} center={[55.5977264, 26.4236592]} setLinePositions={setParsedPath} linePositions={parsedPath} lineOptions={lineOptions} setUserLocation={setUserLocation} userLocation={userLocation}/>
             <MapDistance path={parsedPath}/>
         </div>
             

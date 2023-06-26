@@ -30,6 +30,5 @@ export default function calculateDistance(path:LatLngExpression[][]):number{
             oldPoint = point;
         }
     })
-    return Math.round(result * 100) / 100
-    ;
+    return Math.round(result * 100) / 100;
 }

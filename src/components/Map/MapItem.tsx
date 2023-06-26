@@ -1,29 +1,27 @@
 "use client"
 
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import MapLine from '../MapLine/MapLine';
 import { LatLngExpression, LeafletMouseEvent, PolylineOptions } from 'leaflet';
 import CustomMarker from '../CustomMarker/CustomMarker';
+import MapClickListener from '../MapClickListener/MapClickListener';
+import MapLocationListener from '../MapLocationListener/MapCurrentLocation';
 
 export default function MapItem(props:{
     linePositions:LatLngExpression[][],
     setLinePositions:Function,
     lineOptions:PolylineOptions,
     center:LatLngExpression,
-    paintMode:string
+    paintMode:string,
+    setUserLocation:Function,
+    userLocation:{
+      lat:number,
+      lng:number,
+      acc:number
+    } | undefined
 }){
-    function MapClickListener(){
-        const map = useMapEvents({
-          click: (e:LeafletMouseEvent) => {
-            props.setLinePositions((prev:LatLngExpression[]) => {
-                let newArray = [...prev, [e.latlng.lat,e.latlng.lng]];
-                return newArray;
-            })
-          },
-        })
-        return null
-      }
+
 
       function startPin(){
         if(props.linePositions.length > 0){
@@ -41,11 +39,21 @@ export default function MapItem(props:{
             return <CustomMarker type="end" position={[lat,lng]} />
         }
       }
-      
+
     return(
         <div className="w-full h-full">
             <MapContainer zoom={13} center={props.center} className='pointer'>
-                <MapClickListener />
+
+                <MapClickListener onClick={(e:LeafletMouseEvent) => {
+                    props.setLinePositions((prev:LatLngExpression[]) => {
+                      let newArray = [...prev, [e.latlng.lat,e.latlng.lng]];
+                      return newArray;
+                    })
+                }}/>
+
+                {props.userLocation && <CustomMarker acc={props.userLocation.acc} size={[40,40]} icon="user-location.svg" position={[props.userLocation.lat, props.userLocation.lng]} />}
+                <MapLocationListener setUserLocation={props.setUserLocation}/>
+
                 {startPin()}
                 {endPin()}
                 <TileLayer 
