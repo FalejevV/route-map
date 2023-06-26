@@ -6,6 +6,11 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+
+  --color-action: rgb(0, 121, 191);
+  --color-accent: rgb(75, 153, 230);
+  --color-section: rgb(214, 234, 248);
+  --color-bg: rgb(247, 249, 252);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,4 +45,37 @@ body {
 
 .hover-zoom{
   @apply hover:scale-110 transition duration-150
+}
+
+
+.color-action{
+  color:var(--color-action);
+}
+
+.color-accent{
+  color:var(--color-accent);
+}
+
+.color-section{
+  color:var(--color-section);
+}
+
+.color-background{
+  color:var(--color-bg);
+}
+
+.bg-action{
+  background-color:var(--color-action);
+}
+
+.bg-accent{
+  background-color:var(--color-accent);
+}
+
+.bg-section{
+  background-color:var(--color-section);
+}
+
+.bg-background{
+  background-color:var(--color-bg);
 }

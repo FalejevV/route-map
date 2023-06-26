@@ -31,6 +31,7 @@ export default function FileInput(props:{
 
         }
     },[props.file])
+    
     return(
         <div className="flex items-center gap-2">
             <input className="hidden appearance-none" id={props.title} name={props.title} ref={fileRef} type="file" size={1} onChange={onFileInput}/>

@@ -1,4 +1,3 @@
-import { unwatchFile } from "fs";
 import { LatLngExpression } from "leaflet";
 import { xml2json } from "xml-js";
 
@@ -14,7 +13,7 @@ interface Props{
     file:File
 }
 
-function extractArray(trkseg:[] | {trkpt:[]}){
+function extractArray(trkseg:[] | {trkpt:[]}):LatLngExpression[][]{
     let result:any = [];
     if(Array.isArray(trkseg)){
         trkseg.forEach((trksegItem:any) => {
@@ -37,7 +36,7 @@ function extractArray(trkseg:[] | {trkpt:[]}){
     return result;
 }
 
-export default function gpxParser(props:Props){
+export default function gpxParser(props:Props):Promise<LatLngExpression[][]>{
     let reader = new FileReader();
     reader.readAsText(props.file, "UTF-8");
     return new Promise((res,rej) => {

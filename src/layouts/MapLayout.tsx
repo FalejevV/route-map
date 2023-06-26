@@ -7,6 +7,7 @@ import { LatLngExpression, PolylineOptions } from "leaflet";
 import gpxParser from "@/utils/gpxParser";
 import generateGPXFile from "@/utils/generateGPXFile";
 import ToolButton from "@/components/ToolButton/ToolButton";
+import MapDistance from "@/components/MapDistance/MapDistance";
 
 const Map = dynamic(
     () => import('../components/Map/MapItem'),
@@ -39,7 +40,7 @@ export default function MapLayout(){
     }
 
     return (
-        <div className='flex flex-col items-center border-[#4B99E6] border-2'>
+        <div className='w-screen max-w-[850px] h-screen max-h-[750px] flex flex-col items-center border-[#4B99E6] border-2 relative'>
             <div className="w-full h-[40px] flex gap-6 items-center bg-[#d6eaf8] p-2 text-[#000000b6] font-semibold">
                 <p className="pr-10">Map editor</p>
 
@@ -56,6 +57,8 @@ export default function MapLayout(){
                 </div>
             </div>
             <Map paintMode={paintMode} center={[55.5977264, 26.4236592]} setLinePositions={setParsedPath} linePositions={parsedPath} lineOptions={lineOptions} />
+            <MapDistance path={parsedPath}/>
         </div>
+            
     )
 }

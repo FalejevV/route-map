@@ -43,7 +43,7 @@ export default function MapItem(props:{
       }
       
     return(
-        <div className="w-screen max-w-[850px] h-screen max-h-[750px]">
+        <div className="w-full h-full">
             <MapContainer zoom={13} center={props.center} className='pointer'>
                 <MapClickListener />
                 {startPin()}
