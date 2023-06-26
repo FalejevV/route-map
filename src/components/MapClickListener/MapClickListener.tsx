@@ -7,13 +7,13 @@ export default function MapClickListener(props:{
     onClick:Function
 }){
 
-    function listener(){
+    function useListener(){
         const map = useMapEvents({
           click: (e:LeafletMouseEvent) => {
             props.onClick(e);
           },
         })
     }
-    listener();
+    useListener();
     return(<></>)
 }

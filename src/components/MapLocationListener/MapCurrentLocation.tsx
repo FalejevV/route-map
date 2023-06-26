@@ -7,7 +7,7 @@ export default function MapLocationListener(props:{
     setUserLocation:Function
 }){
 
-    function locate(){
+    function useLocation(){
         const map = useMap();
         
         map.locate().on("locationfound", function (e) {
@@ -18,7 +18,7 @@ export default function MapLocationListener(props:{
         });
           
     }
-    locate();
+    useLocation();
 
     return(<></>);
 }
