@@ -9,7 +9,7 @@ import generateGPXFile from "@/utils/generateGPXFile";
 import ToolButton from "@/components/ToolButton/ToolButton";
 import MapDistance from "@/components/MapDistance/MapDistance";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
-import { setParsedPath } from "@/redux/features/mapData";
+import { setPaintMode, setParsedPath } from "@/redux/features/mapData";
 
 const Map = dynamic(
     () => import('../components/Map/MapItem'),
@@ -21,8 +21,6 @@ export default function MapLayout(){
     const [file,setFile] = useState<File | undefined>();
     const dispatch = useAppDispatch();
     const mapData = useAppSelector((state:RootState) => state.mapData);
-    const [paintMode, setPaintMode] = useState("draw");
-    const [userLocation, setUserLocation] = useState<{lat:number,lng:number,acc:number} | undefined>();
 
     useEffect(() => {
         if(file){
@@ -43,8 +41,8 @@ export default function MapLayout(){
                 <p className="pr-10">Map editor</p>
 
                 <div className="flex items-center gap-[10px]">
-                    <ToolButton icon={"/draw.svg"} onClick={() => setPaintMode("draw")} title={"Draw path"} />
-                    <ToolButton icon={"/pin.svg"} onClick={() => setPaintMode("pin")} title={"Place pin"} />
+                    <ToolButton icon={"/draw.svg"} onClick={() => dispatch(setPaintMode("draw"))} title={"Draw path"} />
+                    <ToolButton icon={"/pin.svg"} onClick={() => dispatch(setPaintMode("pin"))} title={"Place pin"} />
                 </div>
 
                 <div className="flex items-center gap-[10px] flex-1 justify-end">
