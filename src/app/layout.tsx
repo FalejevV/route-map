@@ -1,3 +1,4 @@
+import ReduxProvider from '@/redux/ReduxProvider'
 import './globals.css'
 import { Montserrat } from 'next/font/google'
 
@@ -15,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
+        </body>
     </html>
   )
 }

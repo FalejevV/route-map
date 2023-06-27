@@ -8,36 +8,33 @@ import gpxParser from "@/utils/gpxParser";
 import generateGPXFile from "@/utils/generateGPXFile";
 import ToolButton from "@/components/ToolButton/ToolButton";
 import MapDistance from "@/components/MapDistance/MapDistance";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import { setParsedPath } from "@/redux/features/mapData";
 
 const Map = dynamic(
     () => import('../components/Map/MapItem'),
     { ssr: false }
 )
 
-const lineOptions:PolylineOptions = {
-    color:"#00a2ff",
-    lineCap:"round",
-    lineJoin:"round",
-    weight:4,
-}
-
 export default function MapLayout(){
     
     const [file,setFile] = useState<File | undefined>();
-    const [parsedPath, setParsedPath] = useState<LatLngExpression[][]>([[]]);
+    const dispatch = useAppDispatch();
+    const mapData = useAppSelector((state:RootState) => state.mapData);
     const [paintMode, setPaintMode] = useState("draw");
     const [userLocation, setUserLocation] = useState<{lat:number,lng:number,acc:number} | undefined>();
 
     useEffect(() => {
         if(file){
-            gpxParser({file}).then((res:any) => setParsedPath(res));
+            gpxParser({file}).then((res:any) => dispatch(setParsedPath(res)));
         }else{
-            setParsedPath([]);
+            dispatch(setParsedPath([]));
         }
     },[file])
 
     function eraseLast(){
-        setParsedPath(prev => prev.slice(0, prev.length - 1))
+        let newPath = [...mapData.parsedPath].slice(0, mapData.parsedPath.length - 1);
+        dispatch(setParsedPath(newPath));
     }
 
     return (
@@ -52,13 +49,13 @@ export default function MapLayout(){
 
                 <div className="flex items-center gap-[10px] flex-1 justify-end">
                     <ToolButton icon={"/undo.svg"} onClick={eraseLast} title={"Undo"} />
-                    <ToolButton icon={"/clear.svg"} onClick={() => setParsedPath([])} title={"Clear"} />
-                    <FileInput setFile={setFile} setPath={setParsedPath} file={file} path={parsedPath} title={"file"} icon={"upload.svg"} />
-                    <ToolButton icon={"/save.svg"} onClick={() => generateGPXFile(parsedPath)} title={"Save"} />
+                    <ToolButton icon={"/clear.svg"} onClick={() => dispatch(setParsedPath([]))} title={"Clear"} />
+                    <FileInput setFile={setFile} file={file} title={"file"} icon={"upload.svg"} setPath={(path:LatLngExpression[][]) => dispatch(setParsedPath(path))} path={[]} />
+                    <ToolButton icon={"/save.svg"} onClick={() => generateGPXFile(mapData.parsedPath)} title={"Save"} />
                 </div>
             </div>
-            <Map paintMode={paintMode} center={[55.5977264, 26.4236592]} setLinePositions={setParsedPath} linePositions={parsedPath} lineOptions={lineOptions} setUserLocation={setUserLocation} userLocation={userLocation}/>
-            <MapDistance path={parsedPath}/>
+            <Map />
+            <MapDistance/>
         </div>
             
     )
