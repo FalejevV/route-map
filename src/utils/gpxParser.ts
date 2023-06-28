@@ -38,14 +38,12 @@ function extractPathArray(trkseg:[] | {trkpt:[]}):LatLngExpression[][]{
 }
 
 interface WPT{
-    name:{
+    name?:{
         _text:string
     }
-    desc:{
+    desc?:{
         _text:string
     }
-    lat:string,
-    lon:string,
     _attributes:{
         lat:string,
         lon:string,
@@ -53,14 +51,15 @@ interface WPT{
 }
 
 function extractPins(wptArray:WPT | WPT[]){
+    if(!wptArray) return[];
     let pinArray:Pin[] = [];
 
     if(!Array.isArray(wptArray)){
         let wptPosition = [Number(wptArray._attributes.lat), Number(wptArray._attributes.lon)] as LatLngTuple;
         pinArray.push({
-            title: wptArray.name._text || "",
+            title: wptArray?.name?._text || "",
             image: "",
-            description: wptArray.desc._text || "",
+            description: wptArray?.desc?._text || "",
             position: wptPosition
         })
     }else{
@@ -68,9 +67,9 @@ function extractPins(wptArray:WPT | WPT[]){
             let wptPosition = [Number(wpt._attributes.lat), Number(wpt._attributes.lon)] as LatLngTuple;
             console.log(wpt);
             pinArray.push({
-                title: wpt.name._text || "",
+                title: wpt?.name?._text || "",
                 image: "",
-                description: wpt.desc._text,
+                description: wpt?.desc?._text || "",
                 position: wptPosition
             })
         })
