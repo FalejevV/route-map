@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import mapData from './features/mapData'
+import pinCreationData from './features/pinCreationData'
 
 export const store = configureStore({
   reducer: {
-    mapData
+    mapData,
+    pinCreationData
   }
 })
 

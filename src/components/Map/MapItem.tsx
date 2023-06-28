@@ -12,6 +12,7 @@ import { RootState, useAppDispatch, useAppSelector } from '@/redux/store';
 import { setParsedPath, setPins } from '@/redux/features/mapData';
 import { Pin } from '@/interface';
 import CustomPopup from '../CustomPopup/CustomPopup';
+import { setPinCreationPosition, togglePinCreationWindowToggle } from '@/redux/features/pinCreationData';
 
 
 const lineOptions:PolylineOptions = {
@@ -56,13 +57,9 @@ export default function MapItem(){
         let newArray = [...mapDataSelector.parsedPath, [e.latlng.lat,e.latlng.lng]] as LatLngExpression[][];
         dispatch(setParsedPath(newArray));
       }else{
-        let pinArray = [...mapDataSelector.pins, {
-          title:"Example title",
-          thumbnail:"Example image",
-          description:"Example description",
-          position:[e.latlng.lat,e.latlng.lng]
-        }] as Pin[];
-        dispatch(setPins(pinArray))
+        let position = [e.latlng.lat,e.latlng.lng] as LatLngExpression;
+        dispatch(setPinCreationPosition(position));
+        dispatch(togglePinCreationWindowToggle(true));
       }
     }
 

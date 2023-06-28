@@ -8,7 +8,7 @@ export interface UserLocation{
 
 export interface Pin{
     title:string,
-    thumbnail:string,
+    image:string,
     description:string,
     position:LatLngExpression[]
 }

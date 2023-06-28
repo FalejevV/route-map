@@ -10,6 +10,7 @@ import ToolButton from "@/components/ToolButton/ToolButton";
 import MapDistance from "@/components/MapDistance/MapDistance";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { setPaintMode, setParsedPath } from "@/redux/features/mapData";
+import PinCreationWindow from "./PinCreationWindow";
 
 const Map = dynamic(
     () => import('../components/Map/MapItem'),
@@ -21,6 +22,7 @@ export default function MapLayout(){
     const [file,setFile] = useState<File | undefined>();
     const dispatch = useAppDispatch();
     const mapData = useAppSelector((state:RootState) => state.mapData);
+    const pinCreationSelector = useAppSelector((state:RootState) => state.pinCreationData.windowToggle);
 
     useEffect(() => {
         if(file){
@@ -41,8 +43,8 @@ export default function MapLayout(){
                 <p className="pr-10">Map editor</p>
 
                 <div className="flex items-center gap-[10px]">
-                    <ToolButton icon={"/draw.svg"} onClick={() => dispatch(setPaintMode("draw"))} title={"Draw path"} />
-                    <ToolButton icon={"/pin.svg"} onClick={() => dispatch(setPaintMode("pin"))} title={"Place pin"} />
+                    <ToolButton icon={"/draw.svg"} onClick={() => dispatch(setPaintMode("draw"))} title={"Draw path"} toggled={mapData.paintMode==="draw"}/>
+                    <ToolButton icon={"/pin.svg"} onClick={() => dispatch(setPaintMode("pin"))} title={"Place pin"} toggled={mapData.paintMode==="pin"}/>
                 </div>
 
                 <div className="flex items-center gap-[10px] flex-1 justify-end">
@@ -54,6 +56,7 @@ export default function MapLayout(){
             </div>
             <Map />
             <MapDistance/>
+            {pinCreationSelector && <PinCreationWindow />}
         </div>
             
     )

@@ -43,6 +43,14 @@ body {
 .leaflet-popup-content{
   margin:0 !important;
 }
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.25rem !important;
+}
+
+
+
+
 .pointer{
   cursor: pointer !important;
 }
@@ -52,7 +60,7 @@ body {
 }
 
 .hover-zoom{
-  @apply hover:scale-110 transition duration-150
+  @apply hover:scale-110 transition-all duration-300
 }
 
 
@@ -71,7 +79,9 @@ body {
 .color-background{
   color:var(--color-bg);
 }
-
+.color-text{
+  color:#000000b6;
+}
 .bg-action{
   background-color:var(--color-action);
 }
@@ -86,4 +96,8 @@ body {
 
 .bg-background{
   background-color:var(--color-bg);
+}
+
+.inputfield{
+  @apply resize-none focus:outline-none color-text p-2 border border-[gray] rounded;
 }
