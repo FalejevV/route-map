@@ -60,7 +60,7 @@ function extractPins(wptArray:WPT | WPT[]){
         pinArray.push({
             title: wptArray.name._text || "",
             image: "",
-            description: wptArray.desc._text,
+            description: wptArray.desc._text || "",
             position: wptPosition
         })
     }else{
