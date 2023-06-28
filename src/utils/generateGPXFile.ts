@@ -1,3 +1,4 @@
+import { Pin } from "@/interface";
 import { LatLngExpression } from "leaflet"
 
 const fileStart = `
@@ -9,12 +10,15 @@ const fileStart = `
         <name>V-Map</name>
         <link href=""></link>
     </author>
-</metadata>
-<trk>
+</metadata>  
+`
+
+const trackSegmentsTag = `
+    <trk>
     <name>V-Map</name>
     <type>Cycling</type>
     <trkseg>
-`
+`;
 
 const fileEnd = `
     </trkseg> \n
@@ -22,11 +26,30 @@ const fileEnd = `
     </gpx> \n
 `
 
+function addMapPins(pins:Pin[]){
+    let resultArray = "";
+    
+    pins.forEach((pin:Pin) => {
+        resultArray += `
+            <wpt lat="${pin.position[0]}" lon="${pin.position[1]}">
+                <name>${pin.title}</name>
+                <desc>${pin.description}</desc>
+            </wpt>
+        `
+    })
 
-export default function generateGPXFile(path:LatLngExpression[][]){
-    if(path.length === 0) return;
+    return resultArray;
+}
+
+export default function generateGPXFile(path:LatLngExpression[][], pins:Pin[]){
+    if(path.length === 0 && pins.length === 0) return;
 
     let resultFileContent = "" + fileStart;
+
+    resultFileContent += addMapPins(pins);
+
+    resultFileContent += trackSegmentsTag;
+
     path.forEach((point:LatLngExpression[]) => {
         resultFileContent += `<trkpt lat="${point[0]}" lon="${point[1]}"></trkpt> \n`
     })

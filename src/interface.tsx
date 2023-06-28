@@ -1,4 +1,4 @@
-import { LatLngExpression } from "leaflet"
+import { LatLngTuple } from "leaflet"
 
 export interface UserLocation{
     lat:number,
@@ -10,5 +10,5 @@ export interface Pin{
     title:string,
     image:string,
     description:string,
-    position:LatLngExpression[]
+    position:LatLngTuple
 }

@@ -29,8 +29,13 @@ export default function PinCreationWindow(){
             position:pinCreationDataSelector.position
           }] as Pin[];
           dispatch(togglePinCreationWindowToggle(false));
-          dispatch(setPins(pinArray))
+          dispatch(setPins(pinArray));
+          dispatch(setPinCreationValue({
+              key: "image",
+              value: ""
+          }));
     }
+    
     return(
         <div className="max-w-[400px] w-full flex flex-col gap-4 rounded bg-background absolute left-[50%] top-[50%] z-[5000] translate-x-[-50%] translate-y-[-50%] p-5 pt-7">
             <div className="absolute right-2 top-2">

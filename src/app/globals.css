@@ -46,6 +46,7 @@ body {
 
 .leaflet-popup-content-wrapper {
   border-radius: 0.25rem !important;
+  background-color: var(--color-bg) !important;
 }
 
 

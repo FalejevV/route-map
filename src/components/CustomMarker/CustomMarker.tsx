@@ -12,7 +12,7 @@ export default function CustomMarker(props:{
     acc?:number
 }){
     const customIcon = new Icon({
-        iconUrl:props.icon || "/pin.svg",
+        iconUrl:props.icon || "/map-pin.svg",
         iconSize: props.size || [35,35],
     })
     

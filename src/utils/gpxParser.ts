@@ -1,4 +1,5 @@
-import { LatLngExpression } from "leaflet";
+import { Pin } from "@/interface";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 import { xml2json } from "xml-js";
 
 
@@ -13,7 +14,7 @@ interface Props{
     file:File
 }
 
-function extractArray(trkseg:[] | {trkpt:[]}):LatLngExpression[][]{
+function extractPathArray(trkseg:[] | {trkpt:[]}):LatLngExpression[][]{
     let result:any = [];
     if(Array.isArray(trkseg)){
         trkseg.forEach((trksegItem:any) => {
@@ -36,7 +37,53 @@ function extractArray(trkseg:[] | {trkpt:[]}):LatLngExpression[][]{
     return result;
 }
 
-export default function gpxParser(props:Props):Promise<LatLngExpression[][]>{
+interface WPT{
+    name:{
+        _text:string
+    }
+    desc:{
+        _text:string
+    }
+    lat:string,
+    lon:string,
+    _attributes:{
+        lat:string,
+        lon:string,
+    }
+}
+
+function extractPins(wptArray:WPT | WPT[]){
+    let pinArray:Pin[] = [];
+
+    if(!Array.isArray(wptArray)){
+        let wptPosition = [Number(wptArray._attributes.lat), Number(wptArray._attributes.lon)] as LatLngTuple;
+        pinArray.push({
+            title: wptArray.name._text || "",
+            image: "",
+            description: wptArray.desc._text,
+            position: wptPosition
+        })
+    }else{
+        wptArray.forEach((wpt) => {
+            let wptPosition = [Number(wpt._attributes.lat), Number(wpt._attributes.lon)] as LatLngTuple;
+            console.log(wpt);
+            pinArray.push({
+                title: wpt.name._text || "",
+                image: "",
+                description: wpt.desc._text,
+                position: wptPosition
+            })
+        })
+    }
+    return pinArray;
+}
+
+export interface GpxParsed{
+    path:LatLngExpression[][],
+    pins:Pin[]
+}
+
+export default function gpxParser(props:Props):Promise<GpxParsed>{
     let reader = new FileReader();
     reader.readAsText(props.file, "UTF-8");
     return new Promise((res,rej) => {
@@ -44,11 +91,17 @@ export default function gpxParser(props:Props):Promise<LatLngExpression[][]>{
             let target = evt.target;
             let result = target?.result as string;
             let pathResult:LatLngExpression[][] = [];
+            let pinResult:Pin[] = [];
             let routeParse = JSON.parse(xml2json(result, { spaces: 2, compact: true }));
             if(routeParse.gpx){
-                pathResult = extractArray(routeParse.gpx.trk.trkseg);
+                pathResult = extractPathArray(routeParse.gpx.trk.trkseg);
+                console.log(routeParse.gpx);
+                pinResult = extractPins(routeParse.gpx.wpt);
             }
-            res(pathResult);
+            res({
+                path:pathResult,
+                pins:pinResult
+            });
         }
     })
 }
