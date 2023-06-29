@@ -1,6 +1,6 @@
 "use client"
 
-import { MapContainer, Popup, TileLayer } from 'react-leaflet'
+import { MapContainer, TileLayer } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 import MapLine from '../MapLine/MapLine';
 import { LatLngExpression, LeafletMouseEvent, PolylineOptions } from 'leaflet';
@@ -85,8 +85,7 @@ export default function MapItem(){
                 <MapClickListener onClick={clickListener}/>
 
                 {mapDataSelector.userLocation && <CustomMarker acc={mapDataSelector.userLocation.acc} size={[40,40]} icon="user-location.svg" position={[mapDataSelector.userLocation.lat, mapDataSelector.userLocation.lng]} />}
-                
-                {locationMemo}
+                {mapDataSelector.toggleUserLocation && locationMemo}
                 {startPin()}
                 {endPin()}
                 <TileLayer 
