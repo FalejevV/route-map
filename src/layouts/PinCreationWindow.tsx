@@ -34,6 +34,14 @@ export default function PinCreationWindow(){
               key: "image",
               value: ""
           }));
+          dispatch(setPinCreationValue({
+            key: "title",
+            value: ""
+        }));
+        dispatch(setPinCreationValue({
+            key: "description",
+            value: ""
+        }));
     }
     
     return(
