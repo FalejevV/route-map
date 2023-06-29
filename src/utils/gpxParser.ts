@@ -94,7 +94,6 @@ export default function gpxParser(props:Props):Promise<GpxParsed>{
             let routeParse = JSON.parse(xml2json(result, { spaces: 2, compact: true }));
             if(routeParse.gpx){
                 pathResult = extractPathArray(routeParse.gpx.trk.trkseg);
-                console.log(routeParse.gpx);
                 pinResult = extractPins(routeParse.gpx.wpt);
             }
             res({

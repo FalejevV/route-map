@@ -11,11 +11,17 @@ export default function FileInput(props:{
     path:LatLngExpression[][],
     title:string,
     icon:string,
+    fileExtension:string
 }){
+    
 
     function onFileInput(e:React.ChangeEvent<HTMLInputElement>){
-        let files = e.target.files;
+        let files = e.target.files as FileList;
         if(files && files[0]){
+            if(!files[0].name.includes(props.fileExtension)){
+                alert("Wrong file extension. Only GPX files are allowed");
+                return;
+            }
             props.setFile(files[0]);
         }
     }

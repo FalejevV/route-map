@@ -23,7 +23,7 @@ export default function MapToolsTab(){
         if(file){
             gpxParser({file}).then((res:GpxParsed) => {
                 dispatch(setParsedPath(res.path));
-                dispatch(setPins(res.pins))
+                dispatch(setPins([...mapDataSelector.pins, ...res.pins]))
             });
         }else{
             dispatch(setParsedPath([]));
@@ -43,7 +43,7 @@ export default function MapToolsTab(){
                 <ToolButton icon={"/undo.svg"} onClick={eraseLastPath} title={"Undo"} clickable={mapDataSelector.parsedPath.length > 0}/>
                 <ToolButton icon={"/draw-clear.svg"} onClick={() => {confirm("Clear path?") && dispatch(setParsedPath([]))}} title={"Clear path"} clickable={mapDataSelector.parsedPath.length > 0}/>
                 <ToolButton icon={"/pins-clear.svg"} onClick={() => {confirm("Clear pins?") &&dispatch(setPins([]))}} title={"Clear pins"} clickable={mapDataSelector.pins.length > 0}/>
-                <FileInput setFile={setFile} file={file} title={"file"} icon={"upload.svg"} setPath={(path:LatLngExpression[][]) => dispatch(setParsedPath(path))} path={[]} />
+                <FileInput fileExtension=".gpx" setFile={setFile} file={file} title={"file"} icon={"upload.svg"} setPath={(path:LatLngExpression[][]) => dispatch(setParsedPath(path))} path={[]} />
                 <ToolButton icon={"/save.svg"} onClick={() => generateGPXFile(mapDataSelector.parsedPath, mapDataSelector.pins)} title={"Save"} clickable={mapDataSelector.parsedPath.length > 0 || mapDataSelector.pins.length > 0}/>
             </div>
          </div>
