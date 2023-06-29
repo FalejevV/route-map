@@ -35,16 +35,16 @@ export default function MapToolsTab(){
             <p className="pr-10">Map editor</p>
 
             <div className="flex items-center gap-[10px]">
-                <ToolButton icon={"/draw.svg"} onClick={() => dispatch(setPaintMode("draw"))} title={"Draw path"} toggled={mapDataSelector.paintMode==="draw"}/>
-                <ToolButton icon={"/pin.svg"} onClick={() => dispatch(setPaintMode("pin"))} title={"Place pin"} toggled={mapDataSelector.paintMode==="pin"}/>
+                <ToolButton icon={"/draw.svg"} onClick={() => dispatch(setPaintMode("draw"))} title={"Draw path"} toggled={mapDataSelector.paintMode==="draw"} clickable/>
+                <ToolButton icon={"/pin.svg"} onClick={() => dispatch(setPaintMode("pin"))} title={"Place pin"} toggled={mapDataSelector.paintMode==="pin"} clickable/>
             </div>
 
             <div className="flex items-center gap-[10px] flex-1 justify-end">
-                <ToolButton icon={"/undo.svg"} onClick={eraseLastPath} title={"Undo"} />
-                <ToolButton icon={"/draw-clear.svg"} onClick={() => {confirm("Clear path?") && dispatch(setParsedPath([]))}} title={"Clear path"} />
-                <ToolButton icon={"/pins-clear.svg"} onClick={() => {confirm("Clear pins?") &&dispatch(setPins([]))}} title={"Clear pins"} />
+                <ToolButton icon={"/undo.svg"} onClick={eraseLastPath} title={"Undo"} clickable={mapDataSelector.parsedPath.length > 0}/>
+                <ToolButton icon={"/draw-clear.svg"} onClick={() => {confirm("Clear path?") && dispatch(setParsedPath([]))}} title={"Clear path"} clickable={mapDataSelector.parsedPath.length > 0}/>
+                <ToolButton icon={"/pins-clear.svg"} onClick={() => {confirm("Clear pins?") &&dispatch(setPins([]))}} title={"Clear pins"} clickable={mapDataSelector.pins.length > 0}/>
                 <FileInput setFile={setFile} file={file} title={"file"} icon={"upload.svg"} setPath={(path:LatLngExpression[][]) => dispatch(setParsedPath(path))} path={[]} />
-                <ToolButton icon={"/save.svg"} onClick={() => generateGPXFile(mapDataSelector.parsedPath, mapDataSelector.pins)} title={"Save"} />
+                <ToolButton icon={"/save.svg"} onClick={() => generateGPXFile(mapDataSelector.parsedPath, mapDataSelector.pins)} title={"Save"} clickable={mapDataSelector.parsedPath.length > 0 || mapDataSelector.pins.length > 0}/>
             </div>
          </div>
     )
