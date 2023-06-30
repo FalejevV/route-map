@@ -2,7 +2,7 @@ import { Pin } from "@/interface";
 import { Popup } from "react-leaflet";
 import Image from 'next/image'
 import ToolButton from "../ToolButton/ToolButton";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 
 export default function CustomPopup(props:{
