@@ -6,6 +6,7 @@ import { RootState, useAppSelector } from "@/redux/store";
 import PinCreationWindow from "./PinCreationWindow";
 import MapToolsTab from "./MapToolsTab";
 import LocationListenerToggle from '@/components/LocationListenerToggle/LocationListenerToggle';
+import MapThemeSwitcher from '@/components/MapThemeSwitch/MapThemeSwitch';
 
 const Map = dynamic(
     () => import('../components/Map/MapItem'),
@@ -21,6 +22,7 @@ export default function MapLayout(){
             <Map />
             <MapDistance/>
             <LocationListenerToggle />
+            <MapThemeSwitcher />
             {pinCreationToggleWindow && <PinCreationWindow />}
         </div>
             

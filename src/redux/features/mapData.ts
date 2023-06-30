@@ -9,6 +9,7 @@ export interface MapData{
     paintMode:string,
     userLocation: UserLocation | undefined,
     toggleUserLocation: boolean,
+    mapTheme:number,
 }
 
 const initialState:MapData = {
@@ -18,6 +19,7 @@ const initialState:MapData = {
     paintMode:"draw",
     userLocation: undefined,
     toggleUserLocation: false,
+    mapTheme:1,
 };
 
 
@@ -43,9 +45,12 @@ const mapDataSlice = createSlice({
         setToggleUserLocation:((state:MapData, action:PayloadAction<boolean>) => {
             state.toggleUserLocation = action.payload;
         }),
+        setMapTheme: ((state:MapData, action:PayloadAction<number>) => {
+            state.mapTheme = action.payload;
+        })
     }
 })
 
 export default mapDataSlice.reducer;
 
-export const {setMapCenter,setParsedPath, setPins, setPaintMode,setUserLocation,setToggleUserLocation} = mapDataSlice.actions;
+export const {setMapCenter,setParsedPath, setPins, setPaintMode,setUserLocation,setToggleUserLocation ,setMapTheme} = mapDataSlice.actions;

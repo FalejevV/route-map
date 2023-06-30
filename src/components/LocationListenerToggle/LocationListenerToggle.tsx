@@ -22,7 +22,7 @@ export default function LocationListenerToggle(){
     },[toggleUserLocationSelector])
 
     return(
-        <div className="absolute left-2 bottom-11 w-[50px] h-[50px] bg-background z-[5000] flex items-center justify-center rounded">
+        <div className="absolute left-3 bottom-14 w-[50px] h-[50px] bg-background z-[5000] flex items-center justify-center rounded border-gray">
             {userLocationSelector === undefined && toggleUserLocationSelector && <LoadingIndicator />}
             <div className={` opacity-60 ${toggleUserLocationSelector && "opacity-[1]"}`}>
             <ToolButton icon={"user-location.svg"} size={[45,45]} onClick={toggleLocationListener} title={"Toggle location"}/>

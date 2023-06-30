@@ -115,3 +115,7 @@ body {
   -o-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
+
+.border-gray{
+  @apply border border-[rgba(0,0,0,0.47)]
+}
