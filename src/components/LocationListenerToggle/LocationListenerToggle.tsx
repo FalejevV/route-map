@@ -8,7 +8,8 @@ import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 export default function LocationListenerToggle(){
 
     const dispatch = useAppDispatch();
-    const [toggleUserLocationSelector, userLocationSelector] = useAppSelector((state:RootState) => [state.mapData.toggleUserLocation, state.mapData.userLocation]);
+    const toggleUserLocationSelector = useAppSelector((state:RootState) => state.mapData.toggleUserLocation);
+    const userLocationSelector = useAppSelector((state:RootState) => state.mapData.userLocation);
     
     function toggleLocationListener(){
         dispatch(setToggleUserLocation(!toggleUserLocationSelector));
