@@ -10,7 +10,7 @@ export default function TextArea(props:{
     return(
         <div className="w-full overflow-hidden flex flex-col gap-2">
             <label htmlFor={props.id} className="color-text">{props.title}</label>
-            <textarea id={props.id} name={props.id} className="inputfield" placeholder={props.placeholder} onChange={(e) => props.onChange(e)}/>
+            <textarea value={props.value} id={props.id} name={props.id} className="inputfield" placeholder={props.placeholder} onChange={(e) => props.onChange(e)}/>
         </div>
     )
 }

@@ -5,6 +5,7 @@ import { Pin } from "@/interface";
 import { setPins } from "@/redux/features/mapData";
 import { PinCreationValues, setPinCreationValue, togglePinCreationWindowToggle } from "@/redux/features/pinCreationData";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
+import { nanoid } from "@reduxjs/toolkit";
 import React from "react";
 
 
@@ -16,51 +17,83 @@ export default function PinCreationWindow(){
 
     function onChangeHandler(e:React.ChangeEvent, key:PinCreationValues){
         dispatch(setPinCreationValue({
-            key,
-            value: (e.target as HTMLInputElement).value
+            pin:{
+                ...pinCreationDataSelector.pin,
+                [key]:(e.target as HTMLInputElement).value
+            }
         }))
     }
 
+
     function addPin(){
-        let pinArray = [...mapDataSelector.pins, {
-            title:pinCreationDataSelector.title,
-            image:pinCreationDataSelector.image,
-            description:pinCreationDataSelector.description,
-            position:pinCreationDataSelector.position
-          }] as Pin[];
+        if(pinCreationDataSelector.pin.key !== ""){
+            dispatch(setPins(mapDataSelector.pins.map((pin:Pin) => {
+                if(pin.key === pinCreationDataSelector.pin.key){
+                    return pinCreationDataSelector.pin
+                }
+                return pin;
+            })))
+
+            dispatch(togglePinCreationWindowToggle(false));
+            dispatch(setPinCreationValue({
+                pin: {
+                    title: "",
+                    image: "",
+                    description: "",
+                    position: [0,0],
+                    key: ""
+                }
+            }));
+            return;
+        }
+
+        let newPin = {
+            title:pinCreationDataSelector.pin.title,
+            image:pinCreationDataSelector.pin.image,
+            description:pinCreationDataSelector.pin.description,
+            position:pinCreationDataSelector.pin.position,
+            key:nanoid()
+          }
+        let pinArray = [...mapDataSelector.pins, newPin] as Pin[];
           dispatch(togglePinCreationWindowToggle(false));
           dispatch(setPins(pinArray));
           dispatch(setPinCreationValue({
-              key: "image",
-              value: ""
+              pin: {
+                  title: "",
+                  image: "",
+                  description: "",
+                  position: [0,0],
+                  key: ""
+              }
           }));
-          dispatch(setPinCreationValue({
-            key: "title",
-            value: ""
-        }));
+    }
+
+    function closeWindow(){
         dispatch(setPinCreationValue({
-            key: "description",
-            value: ""
+            pin: {
+                title: "",
+                image: "",
+                description: "",
+                position: [0,0],
+                key: ""
+            }
         }));
+        dispatch(togglePinCreationWindowToggle(false));
     }
     
     return(
         <div className="max-w-[400px] w-full flex flex-col gap-4 rounded bg-background absolute left-[50%] top-[50%] z-[5000] translate-x-[-50%] translate-y-[-50%] p-5 pt-7">
             <div className="absolute right-2 top-2">
-                <ToolButton icon={"close.svg"} onClick={() => dispatch(togglePinCreationWindowToggle(false))} title={"close"} />
+                <ToolButton icon={"close.svg"} onClick={closeWindow} title={"close"} />
             </div>
-            <TextField value={pinCreationDataSelector.title} 
+            <TextField value={pinCreationDataSelector.pin.title} 
             onChange={(e:React.ChangeEvent) => onChangeHandler(e, "title")} 
-
             title={"Title"} id={"title"} placeholder={"Title here"} />
-            <TextField value={pinCreationDataSelector.image}
-            onChange={(e:React.ChangeEvent) => onChangeHandler(e, "image")} 
-            title={"Image"} id={"image"} placeholder={"Just a URL for now"} />
 
-            <TextArea  value={pinCreationDataSelector.description}
+            <TextArea  value={pinCreationDataSelector.pin.description}
             onChange={(e:React.ChangeEvent) => onChangeHandler(e, "description")} 
             title={"Description"} id={"description"} placeholder={"Tell us more about it"} />
-            <button className="bg-accent h-12 rounded mt-2" onClick={addPin}>Add pin</button>
+            <button className="bg-accent h-12 rounded mt-2" onClick={addPin}>{pinCreationDataSelector.pin.key === "" ? "Add pin" : "Update pin"}</button>
         </div>
     )
 }

@@ -10,5 +10,6 @@ export interface Pin{
     title:string,
     image:string,
     description:string,
-    position:LatLngTuple
+    position:LatLngTuple,
+    key:string
 }

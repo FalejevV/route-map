@@ -19,7 +19,7 @@ export default function MapLayout(){
     return (
         <div className='w-screen max-w-[850px] h-screen max-h-[750px] flex flex-col items-center border-[#4B99E6] border-2 relative'>
             <MapToolsTab />
-            <Map />
+            <Map interactive={true}/>
             <MapDistance/>
             <LocationListenerToggle />
             <MapThemeSwitcher />

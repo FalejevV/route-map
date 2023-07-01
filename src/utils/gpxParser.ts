@@ -1,4 +1,5 @@
 import { Pin } from "@/interface";
+import { nanoid } from "@reduxjs/toolkit";
 import { LatLngExpression, LatLngTuple } from "leaflet";
 import { xml2json } from "xml-js";
 
@@ -30,6 +31,7 @@ function extractPathArray(trkseg:[] | {trkpt:[]}):LatLngExpression[][]{
             }
         })
     }else{
+        if(!trkseg.trkpt) return [];
         trkseg.trkpt.forEach((point:RoutePoint) => {
             result.push([Object.values(point)[0].lat, Object.values(point)[0].lon]);
         })
@@ -60,17 +62,18 @@ function extractPins(wptArray:WPT | WPT[]){
             title: wptArray?.name?._text || "",
             image: "",
             description: wptArray?.desc?._text || "",
-            position: wptPosition
+            position: wptPosition,
+            key:nanoid()
         })
     }else{
         wptArray.forEach((wpt) => {
             let wptPosition = [Number(wpt._attributes.lat), Number(wpt._attributes.lon)] as LatLngTuple;
-            console.log(wpt);
             pinArray.push({
                 title: wpt?.name?._text || "",
                 image: "",
                 description: wpt?.desc?._text || "",
-                position: wptPosition
+                position: wptPosition,
+                key:nanoid()
             })
         })
     }
