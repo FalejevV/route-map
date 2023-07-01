@@ -18,9 +18,9 @@ export default function CustomMarker(props:{
     
     if(props.type){
         const typeIcon = new Icon({
-            iconUrl:`/marker-${props.type}.svg`,
+            iconUrl:`/${props.type}-marker.svg`,
             iconSize: props.size || [30,30],
-            iconAnchor:   [2, 30],
+            iconAnchor:   [15, 15],
         })
         return(
             <Marker position={props.position} icon={typeIcon}>
